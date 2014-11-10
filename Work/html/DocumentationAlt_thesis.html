@@ -1,0 +1,1168 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>DocumentationAlt_thesis</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-17"><meta name="DC.source" content="DocumentationAlt_thesis.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Documents</a></li><li><a href="#2">Clearing and some default settings</a></li><li><a href="#3">Reading the Data</a></li><li><a href="#4">Searching for the initial crop coordinates and FeatureExtraction Coordinates</a></li><li><a href="#5">For Original Image</a></li><li><a href="#6">Gaussian filter</a></li><li><a href="#7">Combining Histogram</a></li><li><a href="#8">Test of multiple frame</a></li><li><a href="#9">Computing the number of Outlying peaks on histogram</a></li><li><a href="#10">Segmentation of Tumour</a></li><li><a href="#11">Segmentation method 2: Local Otsu method</a></li><li><a href="#12">Segmentation method 3: MCWS method</a></li><li><a href="#13">MCWS - Marker Controlled Water Segmentation method.</a></li><li><a href="#14">Segmentation method 4:Template Matching method</a></li><li><a href="#15">Segmentation method 5:Seed Growing Method</a></li><li><a href="#16">Segmentation of Diaphragm</a></li><li><a href="#17">Features Extraction</a></li><li><a href="#18">Verification Section</a></li><li><a href="#19">Plots</a></li><li><a href="#20">Density Plot</a></li><li><a href="#21">Scatter Plot, of  handles.TumourYcentroid</a></li><li><a href="#22">Scatter Plot, of</a></li></ul></div><h2>Documents<a name="1"></a></h2><pre class="codeinput"><span class="comment">%Test case for programs in GUI: loading all files as usual, but stop</span>
+<span class="comment">% before segmenting, would be changes to test all different segmentation</span>
+<span class="comment">% methods</span>
+</pre><h2>Clearing and some default settings<a name="2"></a></h2><pre class="codeinput">clear <span class="string">all</span>
+close <span class="string">all</span>
+
+<span class="comment">% docked figures are easier to manage</span>
+set(0,<span class="string">'DefaultFigureWindowStyle'</span>,<span class="string">'docked'</span>)
+
+<span class="comment">% Matlab complains a lot in dock format</span>
+iptsetpref(<span class="string">'ImshowInitialMagnification'</span>, <span class="string">'fit'</span>)
+warning(<span class="string">'off'</span>,<span class="string">'Images:imshow:magnificationMustBeFitForDockedFigure'</span>); <span class="comment">%Suppress Docked Fit Warning</span>
+<span class="comment">%  set(0,'DefaultFigureWindowStyle','normal')</span>
+
+<span class="comment">%Load All functions</span>
+ addpath(<span class="string">'C:\Users\Minghao\Desktop\research project\GUI\functions'</span>)
+<span class="comment">% %  supress all figure!!! for publishing for now</span>
+<span class="comment">% set(0,'DefaultFigureVisible','off')</span>
+
+handles.cropcor1 = [51.51,94.51,75.98,51.98];
+handles.cropcor2 = [23.51,201.51,84.98,52.98];
+</pre><h2>Reading the Data<a name="3"></a></h2><p>Using matlab UI to navigate into the responding folder</p><pre class="codeinput">[fName,pName] = uigetfile(<span class="string">'*'</span>, <span class="string">'Load data'</span>);
+handles.pName = pName; <span class="comment">% to pass this directory for other function</span>
+<span class="keyword">if</span> pName == 0, <span class="keyword">return</span>; <span class="keyword">end</span>
+<span class="comment">%         dicomlist = dir(fullfile(pName,'Images','*.dcm'));</span>
+handles.dicomlist = dir(fullfile(pName, <span class="string">'*'</span>));  <span class="comment">%Generating a list of filename for reading in that directory, based on the 1st letter on the name</span>
+handles.dicomlist(~strncmp({handles.dicomlist.name}, fName(1), 1)) = []; <span class="comment">% this yank out those files that isn't start with the same 1st letter as selected file</span>
+<span class="comment">% handles.dicominfo = dicominfo(fullfile(pName,handles.dicomlist(1).name));   %reading dicominfo from the very 1st file</span>
+<span class="comment">% Sorting the image, so that the order of time/frame are consistent</span>
+<span class="comment">% chronologically</span>
+[handles.fname inx]= sort_nat({handles.dicomlist.name});
+handles.dicomlist = handles.dicomlist(inx);
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+     handles.data{cnt} = im2double(dicomread(fullfile(pName,handles.dicomlist(cnt).name))); <span class="comment">% directory reading of dicom files</span>
+     handles.info{cnt}  = dicominfo(fullfile(pName,handles.dicomlist(cnt).name)) ;
+<span class="keyword">end</span>
+
+<span class="comment">%Setting up ImgFolder for items</span>
+handles.ImageFolder = pName;                                   <span class="comment">%passing the directory path to textbox/display</span>
+</pre><h2>Searching for the initial crop coordinates and FeatureExtraction Coordinates<a name="4"></a></h2><p>Read for crop coordinate data and This search the Image folder for predata.txt, that is supposed to recorded the relevent cropping detaisl</p><pre class="codeinput">handles.predataName = <span class="string">'predata.txt'</span>;
+<span class="keyword">if</span> exist(fullfile(pName, handles.predataName), <span class="string">'file'</span>)
+    <span class="comment">% File exists.  Do stuff....</span>
+<span class="comment">%     % Display that notice the user there is pre-existing crop region</span>
+<span class="comment">%     txtInfo = sprintf('There is pre-existing crop region \n cropping and thresholding will generate new predata.txt');</span>
+<span class="comment">%     set(handles.txtbox, 'string', txtInfo);</span>
+
+    <span class="comment">% Read the File, and output it into matrix</span>
+    M = dlmread(fullfile(pName, handles.predataName));
+
+    <span class="comment">% Updating crop coordinates and method's option</span>
+    handles.cropcor1 = M(1,:);
+    handles.cropcor2 = M(2,:);
+<span class="comment">%     handles.MethodV = M(3,1);</span>
+    <span class="keyword">try</span>
+    handles.ExtractionCor = M(3,:);
+<span class="comment">%     catch exception</span>
+<span class="comment">%         figure, imshow(handles.I1{cnt})</span>
+<span class="comment">%         [impixel</span>
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    <span class="comment">% File does not exist.</span>
+    <span class="comment">% Display that notice the user there is not pre-existing crop region</span>
+    txtInfo = sprintf(<span class="string">'There is no pre-existing crop region \n will generate predata.txt after cropping and thresholding \n handles.cropcor1'</span>);
+    set(handles.txtbox, <span class="string">'string'</span>, txtInfo);
+
+<span class="keyword">end</span>
+
+<span class="comment">% hence after crop and imagesegmentation, write it to the file, though this would</span>
+<span class="comment">% require sharing of pName, fullFileName as handles</span>
+dlmwrite(fullfile(handles.pName, handles.predataName), <span class="keyword">...</span>
+    [handles.cropcor1; handles.cropcor2])
+</pre><h2>For Original Image<a name="5"></a></h2><pre class="codeinput"><span class="comment">%This section would crop the relevent section, while aso preserving the I1</span>
+<span class="comment">%and I2 original cropping for comparison later on.</span>
+
+<span class="comment">%Cropping and Saving as two cells</span>
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    handles.I1{cnt} = imcrop(handles.data{cnt},handles.cropcor1);
+    handles.I2{cnt} = imcrop(handles.data{cnt},handles.cropcor2);  <span class="comment">% times 2 because of the orignal half int</span>
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    oriI1{cnt} = handles.I1{cnt};
+    oriI2{cnt} = handles.I2{cnt};
+<span class="keyword">end</span>
+
+<span class="comment">%Depiciting the Image</span>
+figure, imhist(handles.I1{1}), title(<span class="string">'Original Image Histogram'</span>)
+figure, imshow( handles.I1{1},[])
+</pre><h2>Gaussian filter<a name="6"></a></h2><p>applying gaussian filter to OriginalLocal histogram and CLAHE processed frame just to check the influence</p><pre class="codeinput">    <span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+        handles.Gdata{cnt} = Gaussian_fn(handles.data{cnt}, 3,2) ;
+        handles.GI1{cnt} = Gaussian_fn(handles.I1{cnt}, 3,2) ;
+        handles.GI2{cnt} = Gaussian_fn(handles.I2{cnt}, 3,2) ;
+    <span class="keyword">end</span>
+</pre><h2>Combining Histogram<a name="7"></a></h2><h2>Test of multiple frame<a name="8"></a></h2><p>to compare histogram varies between frames obviously should be kept within the range of number of frames It seems the original histogram stack on top one another too much, hence, to compare them, I guess this test would be best to be use on Local Histogram, as it has the best spread, however, it is actually only known after comparing all of them. Filters such as Gaussian, median is thought to have no influence here.</p><pre class="codeinput">test = [1 5 13 20 22 25 30];
+
+<span class="comment">% Well, apparently, it seems like from the whole dicom image that the</span>
+<span class="comment">% suppression is caused by blood in aorta arch</span>
+</pre><h2>Computing the number of Outlying peaks on histogram<a name="9"></a></h2><h2>Segmentation of Tumour<a name="10"></a></h2><pre class="codeinput">LineWidth = 2;
+</pre><h2>Segmentation method 2: Local Otsu method<a name="11"></a></h2><p>I would expect the same result, but doing local should have the benifit it doing without the OtsuBinV control, at least, for most cases. In the 1st frame, it is observed that LO has better result, though whether that is conslusive remain to be seen</p><pre class="codeinput"><span class="comment">% In both case, the Gaussian filtered image is the best, Histogram</span>
+<span class="comment">% Localisation and CLAHE doesn't seems to aid in segmentation much, though,</span>
+<span class="comment">% perhaps looking at more frame, more data sets is require for any</span>
+<span class="comment">% conclusion</span>
+
+handles.OtsuBinV = 2;
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+
+    handles.LOGI1{cnt} = otsu(handles.GI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+
+<span class="keyword">end</span>
+
+<span class="comment">% going through to depict imshow on test frames,</span>
+<span class="keyword">for</span> i = 1 : 7
+    h=figure(<span class="string">'Name'</span>,<span class="string">'Local Otsu method on Gaussian data'</span>),<span class="keyword">...</span>
+        imshow(handles.I1{test(i)},[],<span class="string">'InitialMagnification'</span>,100), title({<span class="string">'Local Otsu method on Gaussian data'</span>});
+    [B,L] = bwboundaries(handles.LOGI1{test(i)},<span class="string">'noholes'</span>);
+    hold <span class="string">on</span>
+    <span class="keyword">for</span> k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2), boundary(:,1), <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, LineWidth)
+    <span class="keyword">end</span>
+    hold <span class="string">off</span>
+    set(gca,<span class="string">'position'</span>,[0 0 1 1],<span class="string">'units'</span>,<span class="string">'normalized'</span>)
+
+    saveas(h,[<span class="string">'C:\Users\Minghao\Desktop\research project\Thesis\OtsuSegmentation\'</span> handles.dicomlist(i).name <span class="string">'.png'</span>]) ;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+h =
+
+     1
+
+
+h =
+
+     3
+
+
+h =
+
+     4
+
+
+h =
+
+     5
+
+
+h =
+
+     6
+
+
+h =
+
+     7
+
+
+h =
+
+     8
+
+</pre><img vspace="5" hspace="5" src="DocumentationAlt_thesis_04.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_05.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_06.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_07.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_08.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_09.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_10.png" alt=""> <h2>Segmentation method 3: MCWS method<a name="12"></a></h2><pre class="codeinput"><span class="comment">%Using Marker controlled watershed segmentation on I1, otsu for</span>
+<span class="comment">% diaphragm I2. note watershed works like bwlabel, ie it label the</span>
+<span class="comment">% different region with different values approprially</span>
+</pre><h2>MCWS - Marker Controlled Water Segmentation method.<a name="13"></a></h2><pre class="codeinput"><span class="comment">%Segmentation method to extract a segmentation of tumour with different</span>
+<span class="comment">%frames</span>
+
+<span class="comment">% Control for Background mask value,Foreground mask value and Foreground Objects connected pixel regions control</span>
+MBGM = 0; bgmV = 0;
+MFGM = 0; fgmV= 0;
+imregionalmaxV = 8;
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+<span class="comment">%     handles.dataT{cnt} = handles.data{cnt};</span>
+    handles.MCWSI1{cnt} = MCWS1(handles.GI1{cnt}, bgmV, MBGM, fgmV, MFGM, imregionalmaxV );
+<span class="keyword">end</span>
+
+[handles] = RegionMerging(handles);
+
+
+
+MCWS1_PlotEveryVitals(handles.GI1{test(1)}, bgmV, MBGM, fgmV, MFGM, imregionalmaxV );
+
+<span class="keyword">for</span> i = 1: 7
+    L =MCWS1(handles.GI1{test(i)}, bgmV, MBGM, fgmV, MFGM, imregionalmaxV );
+    Lrgb = label2rgb(L, <span class="string">'jet'</span>, <span class="string">'w'</span>, <span class="string">'shuffle'</span>);
+    h = figure, imshow(Lrgb,[]);
+    title(<span class="string">'Colored watershed label matrix (Lrgb)'</span>)
+
+    saveas(h,[<span class="string">'C:\Users\Minghao\Desktop\research project\Thesis\MCWSSeg\'</span> handles.dicomlist(i).name <span class="string">'.png'</span>])
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i = 1 : 7
+    <span class="comment">%     h=figure('Name','Marker Controlled Water Segmentation on Gaussian data'),...</span>
+    <span class="comment">%         imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({'Marker Controlled Water Segmentation on Gaussian data'});</span>
+    <span class="comment">%     [B,L] = bwboundaries(handles.MCWSI1{test(i)},'noholes');</span>
+    <span class="comment">%     hold on</span>
+    <span class="comment">%     for k = 1:length(B)</span>
+    <span class="comment">%         boundary = B{k};</span>
+    <span class="comment">%         plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth', LineWidth)</span>
+    <span class="comment">%     end</span>
+    <span class="comment">%     hold off</span>
+    <span class="comment">%     set(gca,'position',[0 0 1 1],'units','normalized')</span>
+
+    h = figure(<span class="string">'Name'</span>,<span class="string">'Marker Controlled Water Segmentation on Gaussian data'</span>),<span class="keyword">...</span>
+        imshow(handles.MCWSI1{test(i)},[],<span class="string">'InitialMagnification'</span>,100), title({<span class="string">'Marker Controlled Water Segmentation on Gaussian data'</span>});
+
+    saveas(h,[<span class="string">'C:\Users\Minghao\Desktop\research project\Thesis\MCWSSeg\AfterReg\'</span> handles.dicomlist(i).name <span class="string">'.png'</span>]) ;
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+h =
+
+    14
+
+
+h =
+
+    15
+
+
+h =
+
+    16
+
+
+h =
+
+    17
+
+
+h =
+
+    18
+
+
+h =
+
+    19
+
+
+h =
+
+    20
+
+
+h =
+
+    21
+
+
+h =
+
+    22
+
+
+h =
+
+    23
+
+
+h =
+
+    24
+
+
+h =
+
+    25
+
+
+h =
+
+    26
+
+
+h =
+
+    27
+
+</pre><img vspace="5" hspace="5" src="DocumentationAlt_thesis_11.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_12.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_13.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_14.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_15.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_16.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_17.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_18.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_19.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_20.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_21.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_22.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_23.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_24.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_25.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_26.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_27.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_28.png" alt=""> <img vspace="5" hspace="5" src="DocumentationAlt_thesis_29.png" alt=""> <h2>Segmentation method 4:Template Matching method<a name="14"></a></h2><pre class="codeinput"><span class="comment">% Loading template</span>
+template = double(imread([handles.ImageFolder <span class="string">'template.png'</span>]));
+template = template(:,:,1);
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    [BestRow, BestCol] = MaxCorrelation2(handles.I1{cnt}, template);
+    <span class="comment">% inserting template at the correct location of the coronal plane</span>
+    <span class="comment">% of picture</span>
+    [hT,wT] = size(template);
+    handles.TMI1{cnt} = false(size(handles.I1{1}));
+    handles.TMI1{cnt}(BestRow : BestRow + hT - 1, BestCol : BestCol + wT- 1 ) = template &gt; 0;
+<span class="keyword">end</span>
+
+<span class="comment">% %Plot of Original Frame with template overlay on top of it's frame</span>
+<span class="comment">% for i = 1: 3</span>
+<span class="comment">%     figure('Name',' Original'),...</span>
+<span class="comment">%         imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'})</span>
+<span class="comment">%</span>
+<span class="comment">%     green = cat(3, zeros(size(handles.I1{1})), ones(size(handles.I1{1})), zeros(size(handles.I1{1})));</span>
+<span class="comment">%     hold on</span>
+<span class="comment">%     h = imshow(green);</span>
+<span class="comment">%     % Use  TM1 map as the AlphaData for the solid green image overlay on</span>
+<span class="comment">%     % Original data</span>
+<span class="comment">%     set(h, 'AlphaData', handles.TMI1{test(i)}*0.3)</span>
+<span class="comment">%     hold off</span>
+<span class="comment">%     %     figure('Name','Template Matching method on Original'),...</span>
+<span class="comment">%     %         imshow(handles.TMI1{test(i)},[],'InitialMagnification',100), title({'Template Matching method on Original'})</span>
+<span class="comment">% end</span>
+
+
+
+<span class="keyword">for</span> i = 1: 7
+    h=figure(<span class="string">'Name'</span>,<span class="string">' template matching segmentation on Gaussian data'</span>),<span class="keyword">...</span>
+        imshow(handles.I1{test(i)},[],<span class="string">'InitialMagnification'</span>,100), title({<span class="string">' Original'</span>});
+    [B,L] = bwboundaries(handles.TMI1{test(i)},<span class="string">'noholes'</span>);
+        hold <span class="string">on</span>
+    <span class="keyword">for</span> k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2), boundary(:,1), <span class="string">'r'</span>, <span class="string">'LineWidth'</span>, LineWidth)
+    <span class="keyword">end</span>
+    hold <span class="string">off</span>
+
+    saveas(h,[<span class="string">'C:\Users\Minghao\Desktop\research project\Thesis\TemplateSeg\'</span> handles.dicomlist(i).name <span class="string">'.png'</span>])
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Subscript indices must either be real positive integers or logicals.
+
+Error in DocumentationAlt_thesis (line 247)
+    handles.TMI1{cnt}(BestRow : BestRow + hT - 1, BestCol : BestCol + wT- 1 ) = template &gt; 0;
+</pre><h2>Segmentation method 5:Seed Growing Method<a name="15"></a></h2><p>This should potentially benefit from Histogram Equalisation thanks to the better spread of pixels. To be look at depth....</p><pre class="codeinput"><span class="comment">% Check for Exist for substructure, handles.ExtractionCor,</span>
+<span class="comment">% as normal exist() isn't enough.</span>
+doesVarExist = true ;<span class="comment">% 1 = True</span>
+<span class="keyword">try</span>
+    handles.ExtractionCor;
+<span class="keyword">catch</span>
+    doesVarExist = false ; <span class="comment">% 0 = False</span>
+<span class="keyword">end</span>
+
+<span class="comment">%Case for doesVarExist for manual selection or not</span>
+<span class="keyword">if</span> doesVarExist == false
+    <span class="comment">% region seed growing selection of starting position</span>
+    figure, imshow(handles.I1{1},[]);
+    [x,y,vals] = impixel;
+<span class="keyword">else</span>
+    [x,y,vals] = impixel(handles.I1{1},<span class="keyword">...</span>
+        handles.ExtractionCor(1),handles.ExtractionCor(2));
+<span class="keyword">end</span>
+
+hist(handles.I1{1},50);
+prompt = {<span class="string">'Enter range fromo ROI'</span>};
+reg_maxdist = str2double(inputdlg(prompt))
+
+<span class="comment">%Need some way of automation</span>
+<span class="comment">% if reg_maxdist ==0</span>
+<span class="comment">%     reg_maxdist{cnt} =  graythresh(handles.I1{cnt})/3;</span>
+<span class="comment">%     handles.I1{cnt}=regiongrowing(handles.I1{cnt},x,y,reg_maxdist{cnt});</span>
+<span class="comment">% else</span>
+
+    <span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+        <span class="comment">%     [nelements,xcenters] = hist(handles.I1{cnt});</span>
+        <span class="comment">%     dydx=diff(nelements);</span>
+        <span class="comment">%     level = graythresh(handles.I1{cnt});</span>
+        handles.dataT{cnt} = handles.data{cnt};
+<span class="comment">%         BackG = im2bw(handles.I1{cnt}, graythresh(handles.I1{cnt}));</span>
+<span class="comment">%         handles.RSI1{cnt}(BackG==0) = 0;</span>
+        handles.RSI1{cnt}=regiongrowing(handles.I1{cnt},x,y,reg_maxdist);
+    <span class="keyword">end</span>
+<span class="comment">% end</span>
+
+<span class="keyword">for</span> i = 1: 3
+    figure(<span class="string">'Name'</span>,<span class="string">' Original'</span>),<span class="keyword">...</span>
+        imshow(handles.I1{test(i)},[],<span class="string">'InitialMagnification'</span>,100), title({<span class="string">' Original'</span>})
+    figure(<span class="string">'Name'</span>,<span class="string">'Seed Growing Method on Original'</span>),<span class="keyword">...</span>
+        imshow(handles.RSI1{test(i)},[],<span class="string">'InitialMagnification'</span>,100), title({<span class="string">'Seed Growing Method on Original'</span>})
+<span class="keyword">end</span>
+
+
+<span class="keyword">for</span> i = 1: 7
+    h=figure(<span class="string">'Name'</span>,<span class="string">' Seed Growing on Gaussian data'</span>),<span class="keyword">...</span>
+        imshow(handles.I1{test(i)},[],<span class="string">'InitialMagnification'</span>,100), title({<span class="string">' Original'</span>});
+    [B,L] = bwboundaries(handles.RSI1{test(i)},<span class="string">'noholes'</span>);
+        hold <span class="string">on</span>
+    <span class="keyword">for</span> k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2), boundary(:,1), <span class="string">'r'</span>, <span class="string">'LineWidth'</span>,LineWidth )
+    <span class="keyword">end</span>
+    hold <span class="string">off</span>
+
+    saveas(h,[<span class="string">'C:\Users\Minghao\Desktop\research project\Thesis\SeedSeg\'</span> handles.dicomlist(i).name <span class="string">'.png'</span>])
+<span class="keyword">end</span>
+</pre><h2>Segmentation of Diaphragm<a name="16"></a></h2><pre class="codeinput"><span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    handles.LOGI2{cnt} = otsu(handles.GI2{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+<span class="keyword">end</span>
+</pre><h2>Features Extraction<a name="17"></a></h2><p>Planning to make a function for features extraction, verifying, plotting</p><pre class="codeinput"><span class="comment">%   Some parameters that enable GUI control, enable all here</span>
+handles.Erode_DilateV = 1;
+handles.Bwareaopen = 1;
+handles.Erode_DilateV = 1;
+handles.Imfill = 1;
+handles.DynamicUpV = 1;
+
+[ handles ] = FeatureExtract( handles.LOGI1,handles.LOGI2, handles );
+
+
+<span class="comment">% hence after crop and imagesegmentation, write it to the file, though this would</span>
+<span class="comment">% require sharing of pName, fullFileName as handles</span>
+dlmwrite(fullfile(handles.pName, handles.predataName), <span class="keyword">...</span>
+    [handles.cropcor1; handles.cropcor2; handles.ExtractionCor])
+</pre><h2>Verification Section<a name="18"></a></h2><p>Tumourpixelmargin = 25; Diahphragmpixelmargin = 20;</p><p>[ handles ] = VerifyExpectation(handles, Tumourpixelmargin, Diahphragmpixelmargin );</p><h2>Plots<a name="19"></a></h2><pre class="codeinput">handles.SensibleTime = true;
+
+[ handles ] =PlotsCV( handles );
+</pre><h2>Density Plot<a name="20"></a></h2><pre class="codeinput">    ProbabilityMap = 0;
+    <span class="keyword">for</span> cnt = 1: numel(handles.dicomlist)
+        ProbabilityMap = ProbabilityMap + handles.dataMap{cnt};
+    <span class="keyword">end</span>
+    <span class="comment">% Normalising</span>
+    ProbabilityMap = ProbabilityMap/numel(handles.dicomlist);
+
+    figure, contourf(ProbabilityMap,<span class="string">'ShowText'</span>,<span class="string">'on'</span>);
+axis <span class="string">ij</span>
+</pre><h2>Scatter Plot, of  handles.TumourYcentroid<a name="21"></a></h2><pre class="codeinput">figure;
+hold <span class="string">on</span>;
+
+<span class="comment">% ScatterVMRIY = line((handles.TumourYcentroid)/max(abs(handles.TumourYcentroid)),(handles.DiaphragmYbound)/max(abs(handles.DiaphragmYbound)));</span>
+ScatterVMRIY = line((handles.TumourYcentroid),(handles.DiaphragmYbound));
+<span class="comment">% p1 =     -0.3525  (-0.8803, 0.1752)</span>
+<span class="comment">% p2 =         6.7  (5.787, 7.614)</span>
+<span class="comment">% p3 =       2.449  (-0.4117, 5.31)</span>
+<span class="comment">% x =  -3:0.01:4;</span>
+<span class="comment">% f(x) = p1*x^2 + p2*x + p3</span>
+
+
+<span class="comment">% Linear model Poly2:</span>
+<span class="comment">%      f(x) = p1*x^2 + p2*x + p3</span>
+<span class="comment">% Coefficients (with 95% confidence bounds):</span>
+<span class="comment">%        p1 =     -0.3525  (-0.8803, 0.1752)</span>
+<span class="comment">%        p2 =         6.7  (5.787, 7.614)</span>
+<span class="comment">%        p3 =       2.449  (-0.4117, 5.31)</span>
+<span class="comment">%</span>
+<span class="comment">% Goodness of fit:</span>
+<span class="comment">%   SSE: 609.1</span>
+<span class="comment">%   R-square: 0.911</span>
+<span class="comment">%   Adjusted R-square: 0.9044</span>
+<span class="comment">%   RMSE: 4.75</span>
+
+<span class="comment">% Adjust line properties (functional)</span>
+set(ScatterVMRIY                            , <span class="keyword">...</span>
+  <span class="string">'LineStyle'</span>       , <span class="string">'-.'</span>      , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'.'</span>         , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [.5 .5 .5]  );
+set(hModel                        , <span class="keyword">...</span>
+  <span class="string">'LineStyle'</span>       , <span class="string">'--'</span>        , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , <span class="string">'r'</span>         );
+set(hCI(1)                        , <span class="keyword">...</span>
+  <span class="string">'LineStyle'</span>       , <span class="string">'-.'</span>        , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [0 .5 0]    );
+set(hCI(2)                        , <span class="keyword">...</span>
+  <span class="string">'LineStyle'</span>       , <span class="string">'-.'</span>        , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [0 .5 0]    );
+
+<span class="comment">% Adjust line properties (aesthetics)</span>
+set(ScatterVMRIY                            , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 1           , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'o'</span>         , <span class="keyword">...</span>
+  <span class="string">'MarkerSize'</span>      , 6           , <span class="keyword">...</span>
+  <span class="string">'MarkerEdgeColor'</span> , [.2 .2 .2]  , <span class="keyword">...</span>
+  <span class="string">'MarkerFaceColor'</span> , [.3 .0 .3]  );
+set(hModel                        , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 1.5         );
+set(hCI(1)                        , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 1.5         );
+set(hCI(2)                        , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 1.5         );
+
+<span class="comment">% Add labels</span>
+hTitle  = title (<span class="string">'Scatter plot of Diaphragm Belt &amp; MRI Parameter'</span>);
+hXLabel = xlabel(<span class="string">'Normalised CtumourX and CtumourY Parameter\it ( C ) \it '</span>       );
+hYLabel = ylabel(<span class="string">'Normalised Diaphragm Height Parameter \it ( \mu [normalize])\it'</span>    );
+
+
+<span class="comment">% Add legend</span>
+hLegend = legend([ ScatterVMRIY], <span class="keyword">...</span>
+<span class="string">'Parameters Variation of DiaphragmY and CtumourY in 1 minute'</span>  );
+
+<span class="comment">% Adjust font</span>
+set( gca                             , <span class="string">'FontName'</span>   , <span class="string">'Helvetica'</span> );
+set([hTitle, hXLabel, hYLabel]      ,  <span class="string">'FontName'</span>   , <span class="string">'AvantGarde'</span>);
+set([hLegend, gca]                   , <span class="string">'FontSize'</span>   , 8           );
+set([hXLabel, hYLabel]               , <span class="string">'FontSize'</span>   , 10          );
+set( hTitle                          , <span class="string">'FontSize'</span>   , 12          , <span class="keyword">...</span>
+                                       <span class="string">'FontWeight'</span> , <span class="string">'bold'</span>      );
+
+<span class="comment">% Adjust axes properties</span>
+set(gca, <span class="keyword">...</span>
+  <span class="string">'Box'</span>         , <span class="string">'off'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickDir'</span>     , <span class="string">'out'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickLength'</span>  , [.02 .02] , <span class="keyword">...</span>
+  <span class="string">'XMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YGrid'</span>       , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'XColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'YColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'XTick'</span>       , -1:0.5:1.25, <span class="keyword">...</span>
+  <span class="string">'YTick'</span>       , -1:0.5:1.25, <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>   , 1         );
+ hold <span class="string">off</span>
+</pre><h2>Scatter Plot, of<a name="22"></a></h2><pre class="codeinput">figure;
+hold <span class="string">on</span>;
+ScatterVMRIX = line((handles.TumourXcentroid)/max(abs(handles.TumourXcentroid)),(handles.DiaphragmYbound)/max(abs(handles.DiaphragmYbound)));
+
+<span class="comment">% Adjust line properties (functional)</span>
+set(ScatterVMRIX                            , <span class="keyword">...</span>
+  <span class="string">'LineStyle'</span>       , <span class="string">'-.'</span>      , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'.'</span>         , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [.5 .5 .5]  );
+
+<span class="comment">% Adjust line properties (aesthetics)</span>
+set(ScatterVMRIX                            , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 1           , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'o'</span>         , <span class="keyword">...</span>
+  <span class="string">'MarkerSize'</span>      , 6           , <span class="keyword">...</span>
+  <span class="string">'MarkerEdgeColor'</span> , [.2 .2 .2]  , <span class="keyword">...</span>
+  <span class="string">'MarkerFaceColor'</span> , [.0 .7 .7]  );
+
+<span class="comment">% Add labels</span>
+hTitle  = title (<span class="string">'Scatter plot of Diaphragm Belt &amp; MRI Parameter'</span>);
+hXLabel = xlabel(<span class="string">'Normalised CtumourX and CtumourY Parameter\it ( C ) \it '</span>       );
+hYLabel = ylabel(<span class="string">'Normalised Diaphragm Height Parameter \it ( \mu [normalize])\it'</span>    );
+
+
+<span class="comment">% Add legend</span>
+hLegend = legend([ScatterVMRIX, ], <span class="keyword">...</span>
+  <span class="string">'Parameters Variation of DiaphragmY and CtumourX in 1 minute'</span> );
+
+<span class="comment">% Adjust font</span>
+set( gca                             , <span class="string">'FontName'</span>   , <span class="string">'Helvetica'</span> );
+set([hTitle, hXLabel, hYLabel]      ,  <span class="string">'FontName'</span>   , <span class="string">'AvantGarde'</span>);
+set([hLegend, gca]                   , <span class="string">'FontSize'</span>   , 8           );
+set([hXLabel, hYLabel]               , <span class="string">'FontSize'</span>   , 10          );
+set( hTitle                          , <span class="string">'FontSize'</span>   , 12          , <span class="keyword">...</span>
+                                       <span class="string">'FontWeight'</span> , <span class="string">'bold'</span>      );
+
+<span class="comment">% Adjust axes properties</span>
+set(gca, <span class="keyword">...</span>
+  <span class="string">'Box'</span>         , <span class="string">'off'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickDir'</span>     , <span class="string">'out'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickLength'</span>  , [.02 .02] , <span class="keyword">...</span>
+  <span class="string">'XMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YGrid'</span>       , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'XColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'YColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'XTick'</span>       , -1:0.5:1.25, <span class="keyword">...</span>
+  <span class="string">'YTick'</span>       , -1:0.5:1.25, <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>   , 1         );
+ hold <span class="string">off</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Documents
+%Test case for programs in GUI: loading all files as usual, but stop
+% before segmenting, would be changes to test all different segmentation
+% methods
+
+%% Clearing and some default settings
+clear all
+close all
+
+% docked figures are easier to manage
+set(0,'DefaultFigureWindowStyle','docked')
+
+% Matlab complains a lot in dock format
+iptsetpref('ImshowInitialMagnification', 'fit')
+warning('off','Images:imshow:magnificationMustBeFitForDockedFigure'); %Suppress Docked Fit Warning
+%  set(0,'DefaultFigureWindowStyle','normal')
+
+%Load All functions
+ addpath('C:\Users\Minghao\Desktop\research project\GUI\functions')
+% %  supress all figure!!! for publishing for now
+% set(0,'DefaultFigureVisible','off')
+
+handles.cropcor1 = [51.51,94.51,75.98,51.98];
+handles.cropcor2 = [23.51,201.51,84.98,52.98];
+
+%% Reading the Data
+% Using matlab UI to navigate into the responding folder
+
+[fName,pName] = uigetfile('*', 'Load data');
+handles.pName = pName; % to pass this directory for other function
+if pName == 0, return; end
+%         dicomlist = dir(fullfile(pName,'Images','*.dcm'));
+handles.dicomlist = dir(fullfile(pName, '*'));  %Generating a list of filename for reading in that directory, based on the 1st letter on the name
+handles.dicomlist(~strncmp({handles.dicomlist.name}, fName(1), 1)) = []; % this yank out those files that isn't start with the same 1st letter as selected file
+% handles.dicominfo = dicominfo(fullfile(pName,handles.dicomlist(1).name));   %reading dicominfo from the very 1st file
+% Sorting the image, so that the order of time/frame are consistent
+% chronologically
+[handles.fname inx]= sort_nat({handles.dicomlist.name});
+handles.dicomlist = handles.dicomlist(inx);
+
+for cnt = 1 : numel(handles.dicomlist)
+     handles.data{cnt} = im2double(dicomread(fullfile(pName,handles.dicomlist(cnt).name))); % directory reading of dicom files
+     handles.info{cnt}  = dicominfo(fullfile(pName,handles.dicomlist(cnt).name)) ;
+end
+
+%Setting up ImgFolder for items
+handles.ImageFolder = pName;                                   %passing the directory path to textbox/display
+
+%% Searching for the initial crop coordinates and FeatureExtraction Coordinates
+% Read for crop coordinate data and
+% This search the Image folder for predata.txt, that is supposed to
+% recorded the relevent cropping detaisl
+
+handles.predataName = 'predata.txt';
+if exist(fullfile(pName, handles.predataName), 'file')
+    % File exists.  Do stuff....
+%     % Display that notice the user there is pre-existing crop region
+%     txtInfo = sprintf('There is pre-existing crop region \n cropping and thresholding will generate new predata.txt');
+%     set(handles.txtbox, 'string', txtInfo);
+    
+    % Read the File, and output it into matrix
+    M = dlmread(fullfile(pName, handles.predataName));
+    
+    % Updating crop coordinates and method's option
+    handles.cropcor1 = M(1,:);
+    handles.cropcor2 = M(2,:);
+%     handles.MethodV = M(3,1);
+    try
+    handles.ExtractionCor = M(3,:);
+%     catch exception
+%         figure, imshow(handles.I1{cnt})
+%         [impixel 
+    end
+else
+    % File does not exist.
+    % Display that notice the user there is not pre-existing crop region
+    txtInfo = sprintf('There is no pre-existing crop region \n will generate predata.txt after cropping and thresholding \n handles.cropcor1');
+    set(handles.txtbox, 'string', txtInfo);
+    
+end
+
+% hence after crop and imagesegmentation, write it to the file, though this would
+% require sharing of pName, fullFileName as handles
+dlmwrite(fullfile(handles.pName, handles.predataName), ...
+    [handles.cropcor1; handles.cropcor2])
+
+
+
+
+
+%% For Original Image
+%This section would crop the relevent section, while aso preserving the I1
+%and I2 original cropping for comparison later on.
+
+%Cropping and Saving as two cells
+for cnt = 1 : numel(handles.dicomlist)
+    handles.I1{cnt} = imcrop(handles.data{cnt},handles.cropcor1);
+    handles.I2{cnt} = imcrop(handles.data{cnt},handles.cropcor2);  % times 2 because of the orignal half int
+end
+
+for cnt = 1 : numel(handles.dicomlist)
+    oriI1{cnt} = handles.I1{cnt};
+    oriI2{cnt} = handles.I2{cnt};
+end
+
+%Depiciting the Image
+figure, imhist(handles.I1{1}), title('Original Image Histogram')
+figure, imshow( handles.I1{1},[])
+   
+   %% Gaussian filter
+% applying gaussian filter to OriginalLocal histogram and CLAHE processed frame
+% just to check the influence 
+
+    for cnt = 1 : numel(handles.dicomlist)
+        handles.Gdata{cnt} = Gaussian_fn(handles.data{cnt}, 3,2) ;
+        handles.GI1{cnt} = Gaussian_fn(handles.I1{cnt}, 3,2) ;
+        handles.GI2{cnt} = Gaussian_fn(handles.I2{cnt}, 3,2) ;
+    end  
+            
+%% Combining Histogram
+
+
+%% Test of multiple frame 
+% to compare histogram varies between frames
+% obviously should be kept within the range of number of frames
+% It seems the original histogram stack on top one another too much, hence,
+% to compare them, I guess this test would be best to be use on Local
+% Histogram, as it has the best spread, however, it is actually only known
+% after comparing all of them. Filters such as Gaussian, median is thought 
+% to have no influence here.
+
+test = [1 5 13 20 22 25 30];
+
+% Well, apparently, it seems like from the whole dicom image that the
+% suppression is caused by blood in aorta arch
+
+%% Computing the number of Outlying peaks on histogram
+
+
+%% Segmentation of Tumour
+
+LineWidth = 2;
+%% Segmentation method 2: Local Otsu method
+% I would expect the same result, but doing local should have the benifit
+% it doing without the OtsuBinV control, at least, for most cases. In the
+% 1st frame, it is observed that LO has better result, though whether that
+% is conslusive remain to be seen
+
+% In both case, the Gaussian filtered image is the best, Histogram
+% Localisation and CLAHE doesn't seems to aid in segmentation much, though,
+% perhaps looking at more frame, more data sets is require for any
+% conclusion
+
+handles.OtsuBinV = 2;
+
+for cnt = 1 : numel(handles.dicomlist)
+
+    handles.LOGI1{cnt} = otsu(handles.GI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+
+end
+
+% going through to depict imshow on test frames, 
+for i = 1 : 7
+    h=figure('Name','Local Otsu method on Gaussian data'),...
+        imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({'Local Otsu method on Gaussian data'});
+    [B,L] = bwboundaries(handles.LOGI1{test(i)},'noholes');
+    hold on
+    for k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth', LineWidth)
+    end
+    hold off
+    set(gca,'position',[0 0 1 1],'units','normalized')
+   
+    saveas(h,['C:\Users\Minghao\Desktop\research project\Thesis\OtsuSegmentation\' handles.dicomlist(i).name '.png']) ;
+end
+
+%% Segmentation method 3: MCWS method
+%Using Marker controlled watershed segmentation on I1, otsu for
+% diaphragm I2. note watershed works like bwlabel, ie it label the
+% different region with different values approprially
+%% MCWS - Marker Controlled Water Segmentation method.
+%Segmentation method to extract a segmentation of tumour with different
+%frames
+
+% Control for Background mask value,Foreground mask value and Foreground Objects connected pixel regions control
+MBGM = 0; bgmV = 0;
+MFGM = 0; fgmV= 0;
+imregionalmaxV = 8;
+
+for cnt = 1 : numel(handles.dicomlist)
+%     handles.dataT{cnt} = handles.data{cnt};
+    handles.MCWSI1{cnt} = MCWS1(handles.GI1{cnt}, bgmV, MBGM, fgmV, MFGM, imregionalmaxV );
+end
+
+[handles] = RegionMerging(handles);
+
+
+
+MCWS1_PlotEveryVitals(handles.GI1{test(1)}, bgmV, MBGM, fgmV, MFGM, imregionalmaxV );
+
+for i = 1: 7
+    L =MCWS1(handles.GI1{test(i)}, bgmV, MBGM, fgmV, MFGM, imregionalmaxV );
+    Lrgb = label2rgb(L, 'jet', 'w', 'shuffle');
+    h = figure, imshow(Lrgb,[]);
+    title('Colored watershed label matrix (Lrgb)')
+    
+    saveas(h,['C:\Users\Minghao\Desktop\research project\Thesis\MCWSSeg\' handles.dicomlist(i).name '.png'])
+end
+
+for i = 1 : 7
+    %     h=figure('Name','Marker Controlled Water Segmentation on Gaussian data'),...
+    %         imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({'Marker Controlled Water Segmentation on Gaussian data'});
+    %     [B,L] = bwboundaries(handles.MCWSI1{test(i)},'noholes');
+    %     hold on
+    %     for k = 1:length(B)
+    %         boundary = B{k};
+    %         plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth', LineWidth)
+    %     end
+    %     hold off
+    %     set(gca,'position',[0 0 1 1],'units','normalized')
+    
+    h = figure('Name','Marker Controlled Water Segmentation on Gaussian data'),...
+        imshow(handles.MCWSI1{test(i)},[],'InitialMagnification',100), title({'Marker Controlled Water Segmentation on Gaussian data'});
+    
+    saveas(h,['C:\Users\Minghao\Desktop\research project\Thesis\MCWSSeg\AfterReg\' handles.dicomlist(i).name '.png']) ;
+end
+
+
+
+
+
+
+%% Segmentation method 4:Template Matching method
+
+
+% Loading template
+template = double(imread([handles.ImageFolder 'template.png']));
+template = template(:,:,1);
+
+for cnt = 1 : numel(handles.dicomlist)
+    [BestRow, BestCol] = MaxCorrelation2(handles.I1{cnt}, template);
+    % inserting template at the correct location of the coronal plane
+    % of picture
+    [hT,wT] = size(template);
+    handles.TMI1{cnt} = false(size(handles.I1{1}));
+    handles.TMI1{cnt}(BestRow : BestRow + hT - 1, BestCol : BestCol + wT- 1 ) = template > 0;
+end
+
+% %Plot of Original Frame with template overlay on top of it's frame
+% for i = 1: 3
+%     figure('Name',' Original'),...
+%         imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'})
+%     
+%     green = cat(3, zeros(size(handles.I1{1})), ones(size(handles.I1{1})), zeros(size(handles.I1{1})));
+%     hold on
+%     h = imshow(green);
+%     % Use  TM1 map as the AlphaData for the solid green image overlay on
+%     % Original data
+%     set(h, 'AlphaData', handles.TMI1{test(i)}*0.3)
+%     hold off
+%     %     figure('Name','Template Matching method on Original'),...
+%     %         imshow(handles.TMI1{test(i)},[],'InitialMagnification',100), title({'Template Matching method on Original'})
+% end
+
+
+    
+for i = 1: 7
+    h=figure('Name',' template matching segmentation on Gaussian data'),...
+        imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'});
+    [B,L] = bwboundaries(handles.TMI1{test(i)},'noholes');
+        hold on
+    for k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth', LineWidth)
+    end
+    hold off
+    
+    saveas(h,['C:\Users\Minghao\Desktop\research project\Thesis\TemplateSeg\' handles.dicomlist(i).name '.png'])
+end
+
+%% Segmentation method 5:Seed Growing Method
+% This should potentially benefit from Histogram Equalisation thanks to the
+% better spread of pixels. To be look at depth....
+
+% Check for Exist for substructure, handles.ExtractionCor, 
+% as normal exist() isn't enough.
+doesVarExist = true ;% 1 = True
+try
+    handles.ExtractionCor;
+catch
+    doesVarExist = false ; % 0 = False
+end
+
+%Case for doesVarExist for manual selection or not
+if doesVarExist == false
+    % region seed growing selection of starting position
+    figure, imshow(handles.I1{1},[]);
+    [x,y,vals] = impixel;
+else
+    [x,y,vals] = impixel(handles.I1{1},...
+        handles.ExtractionCor(1),handles.ExtractionCor(2));
+end
+
+hist(handles.I1{1},50);
+prompt = {'Enter range fromo ROI'};
+reg_maxdist = str2double(inputdlg(prompt))
+
+%Need some way of automation
+% if reg_maxdist ==0
+%     reg_maxdist{cnt} =  graythresh(handles.I1{cnt})/3;
+%     handles.I1{cnt}=regiongrowing(handles.I1{cnt},x,y,reg_maxdist{cnt});
+% else
+    
+    for cnt = 1 : numel(handles.dicomlist)
+        %     [nelements,xcenters] = hist(handles.I1{cnt});
+        %     dydx=diff(nelements);
+        %     level = graythresh(handles.I1{cnt});
+        handles.dataT{cnt} = handles.data{cnt};
+%         BackG = im2bw(handles.I1{cnt}, graythresh(handles.I1{cnt}));
+%         handles.RSI1{cnt}(BackG==0) = 0;
+        handles.RSI1{cnt}=regiongrowing(handles.I1{cnt},x,y,reg_maxdist);
+    end
+% end
+
+for i = 1: 3
+    figure('Name',' Original'),...
+        imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'})
+    figure('Name','Seed Growing Method on Original'),...
+        imshow(handles.RSI1{test(i)},[],'InitialMagnification',100), title({'Seed Growing Method on Original'})
+end
+
+    
+for i = 1: 7
+    h=figure('Name',' Seed Growing on Gaussian data'),...
+        imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'});
+    [B,L] = bwboundaries(handles.RSI1{test(i)},'noholes');
+        hold on
+    for k = 1:length(B)
+        boundary = B{k};
+        plot(boundary(:,2), boundary(:,1), 'r', 'LineWidth',LineWidth )
+    end
+    hold off
+    
+    saveas(h,['C:\Users\Minghao\Desktop\research project\Thesis\SeedSeg\' handles.dicomlist(i).name '.png'])
+end
+
+
+%% Segmentation of Diaphragm
+for cnt = 1 : numel(handles.dicomlist)
+    handles.LOGI2{cnt} = otsu(handles.GI2{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+end
+    
+
+%% Features Extraction
+% Planning to make a function for features extraction, verifying, plotting
+
+%   Some parameters that enable GUI control, enable all here
+handles.Erode_DilateV = 1;
+handles.Bwareaopen = 1;
+handles.Erode_DilateV = 1;
+handles.Imfill = 1;
+handles.DynamicUpV = 1;
+
+[ handles ] = FeatureExtract( handles.LOGI1,handles.LOGI2, handles );
+
+
+% hence after crop and imagesegmentation, write it to the file, though this would
+% require sharing of pName, fullFileName as handles
+dlmwrite(fullfile(handles.pName, handles.predataName), ...
+    [handles.cropcor1; handles.cropcor2; handles.ExtractionCor])
+
+
+
+%% Verification Section
+% Tumourpixelmargin = 25;
+% Diahphragmpixelmargin = 20;
+% 
+% [ handles ] = VerifyExpectation(handles, Tumourpixelmargin, Diahphragmpixelmargin );
+
+%% Plots
+handles.SensibleTime = true;
+
+[ handles ] =PlotsCV( handles );
+
+
+%% Density Plot
+
+    ProbabilityMap = 0;
+    for cnt = 1: numel(handles.dicomlist)
+        ProbabilityMap = ProbabilityMap + handles.dataMap{cnt};
+    end
+    % Normalising
+    ProbabilityMap = ProbabilityMap/numel(handles.dicomlist);
+   
+    figure, contourf(ProbabilityMap,'ShowText','on');
+axis ij
+
+
+ 
+ %% Scatter Plot, of  handles.TumourYcentroid
+
+figure;
+hold on;
+
+% ScatterVMRIY = line((handles.TumourYcentroid)/max(abs(handles.TumourYcentroid)),(handles.DiaphragmYbound)/max(abs(handles.DiaphragmYbound)));
+ScatterVMRIY = line((handles.TumourYcentroid),(handles.DiaphragmYbound));
+% p1 =     -0.3525  (-0.8803, 0.1752)
+% p2 =         6.7  (5.787, 7.614)
+% p3 =       2.449  (-0.4117, 5.31)
+% x =  -3:0.01:4;
+% f(x) = p1*x^2 + p2*x + p3
+
+
+% Linear model Poly2:
+%      f(x) = p1*x^2 + p2*x + p3
+% Coefficients (with 95% confidence bounds):
+%        p1 =     -0.3525  (-0.8803, 0.1752)
+%        p2 =         6.7  (5.787, 7.614)
+%        p3 =       2.449  (-0.4117, 5.31)
+% 
+% Goodness of fit:
+%   SSE: 609.1
+%   R-square: 0.911
+%   Adjusted R-square: 0.9044
+%   RMSE: 4.75
+
+% Adjust line properties (functional)
+set(ScatterVMRIY                            , ...
+  'LineStyle'       , '-.'      , ...
+  'Marker'          , '.'         , ...
+  'Color'           , [.5 .5 .5]  );
+set(hModel                        , ...
+  'LineStyle'       , 'REPLACE_WITH_DASH_DASH'        , ...
+  'Color'           , 'r'         );
+set(hCI(1)                        , ...
+  'LineStyle'       , '-.'        , ...
+  'Color'           , [0 .5 0]    );
+set(hCI(2)                        , ...
+  'LineStyle'       , '-.'        , ...
+  'Color'           , [0 .5 0]    );
+
+% Adjust line properties (aesthetics)
+set(ScatterVMRIY                            , ...
+  'LineWidth'       , 1           , ...
+  'Marker'          , 'o'         , ...
+  'MarkerSize'      , 6           , ...
+  'MarkerEdgeColor' , [.2 .2 .2]  , ...
+  'MarkerFaceColor' , [.3 .0 .3]  );
+set(hModel                        , ...
+  'LineWidth'       , 1.5         );
+set(hCI(1)                        , ...
+  'LineWidth'       , 1.5         );
+set(hCI(2)                        , ...
+  'LineWidth'       , 1.5         );
+
+% Add labels
+hTitle  = title ('Scatter plot of Diaphragm Belt & MRI Parameter');
+hXLabel = xlabel('Normalised CtumourX and CtumourY Parameter\it ( C ) \it '       );
+hYLabel = ylabel('Normalised Diaphragm Height Parameter \it ( \mu [normalize])\it'    );
+
+
+% Add legend
+hLegend = legend([ ScatterVMRIY], ...
+'Parameters Variation of DiaphragmY and CtumourY in 1 minute'  );
+
+% Adjust font
+set( gca                             , 'FontName'   , 'Helvetica' );
+set([hTitle, hXLabel, hYLabel]      ,  'FontName'   , 'AvantGarde');
+set([hLegend, gca]                   , 'FontSize'   , 8           );
+set([hXLabel, hYLabel]               , 'FontSize'   , 10          );
+set( hTitle                          , 'FontSize'   , 12          , ...
+                                       'FontWeight' , 'bold'      );
+
+% Adjust axes properties
+set(gca, ...
+  'Box'         , 'off'     , ...
+  'TickDir'     , 'out'     , ...
+  'TickLength'  , [.02 .02] , ...
+  'XMinorTick'  , 'on'      , ...
+  'YMinorTick'  , 'on'      , ...
+  'YGrid'       , 'on'      , ...
+  'XColor'      , [.3 .3 .3], ...
+  'YColor'      , [.3 .3 .3], ...
+  'XTick'       , -1:0.5:1.25, ...
+  'YTick'       , -1:0.5:1.25, ...
+  'LineWidth'   , 1         );
+ hold off
+
+%% Scatter Plot, of 
+
+figure;
+hold on;
+ScatterVMRIX = line((handles.TumourXcentroid)/max(abs(handles.TumourXcentroid)),(handles.DiaphragmYbound)/max(abs(handles.DiaphragmYbound)));
+
+% Adjust line properties (functional)
+set(ScatterVMRIX                            , ...
+  'LineStyle'       , '-.'      , ...
+  'Marker'          , '.'         , ...
+  'Color'           , [.5 .5 .5]  );
+
+% Adjust line properties (aesthetics)
+set(ScatterVMRIX                            , ...
+  'LineWidth'       , 1           , ...
+  'Marker'          , 'o'         , ...
+  'MarkerSize'      , 6           , ...
+  'MarkerEdgeColor' , [.2 .2 .2]  , ...
+  'MarkerFaceColor' , [.0 .7 .7]  );
+
+% Add labels
+hTitle  = title ('Scatter plot of Diaphragm Belt & MRI Parameter');
+hXLabel = xlabel('Normalised CtumourX and CtumourY Parameter\it ( C ) \it '       );
+hYLabel = ylabel('Normalised Diaphragm Height Parameter \it ( \mu [normalize])\it'    );
+
+
+% Add legend
+hLegend = legend([ScatterVMRIX, ], ...
+  'Parameters Variation of DiaphragmY and CtumourX in 1 minute' );
+
+% Adjust font
+set( gca                             , 'FontName'   , 'Helvetica' );
+set([hTitle, hXLabel, hYLabel]      ,  'FontName'   , 'AvantGarde');
+set([hLegend, gca]                   , 'FontSize'   , 8           );
+set([hXLabel, hYLabel]               , 'FontSize'   , 10          );
+set( hTitle                          , 'FontSize'   , 12          , ...
+                                       'FontWeight' , 'bold'      );
+
+% Adjust axes properties
+set(gca, ...
+  'Box'         , 'off'     , ...
+  'TickDir'     , 'out'     , ...
+  'TickLength'  , [.02 .02] , ...
+  'XMinorTick'  , 'on'      , ...
+  'YMinorTick'  , 'on'      , ...
+  'YGrid'       , 'on'      , ...
+  'XColor'      , [.3 .3 .3], ...
+  'YColor'      , [.3 .3 .3], ...
+  'XTick'       , -1:0.5:1.25, ...
+  'YTick'       , -1:0.5:1.25, ...
+  'LineWidth'   , 1         );
+ hold off
+
+
+##### SOURCE END #####
+--></body></html>

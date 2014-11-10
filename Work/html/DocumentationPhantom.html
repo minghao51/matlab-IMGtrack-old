@@ -1,0 +1,453 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>DocumentationPhantom</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-05-02"><meta name="DC.source" content="DocumentationPhantom.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Documents</a></li><li><a href="#2">Clearing and some default settings</a></li><li><a href="#3">Reading the Data</a></li><li><a href="#5">Searching for the initial crop coordinates and FeatureExtraction Coordinates</a></li><li><a href="#6">For Original Image</a></li><li><a href="#7">Gaussian filter</a></li><li><a href="#8">Test of multiple frame</a></li><li><a href="#9">Segmentation of Tumour</a></li><li><a href="#10">Segmentation method 2: Local Otsu method</a></li><li><a href="#11">Segmentation of Diaphragm</a></li><li><a href="#12">Features Extraction</a></li><li><a href="#13">Verification Section</a></li><li><a href="#14">Plots</a></li><li><a href="#15">Density Plot</a></li></ul></div><h2>Documents<a name="1"></a></h2><pre class="codeinput"><span class="comment">%Test case for programs in GUI: loading all files as usual, but stop</span>
+<span class="comment">% before segmenting, would be changes to test all different segmentation</span>
+<span class="comment">% methods</span>
+</pre><h2>Clearing and some default settings<a name="2"></a></h2><pre class="codeinput">clear <span class="string">all</span>
+close <span class="string">all</span>
+
+<span class="comment">% docked figures are easier to manage</span>
+<span class="comment">% set(0,'DefaultFigureWindowStyle','docked')</span>
+set(0,<span class="string">'DefaultFigureWindowStyle'</span>,<span class="string">'normal'</span>)
+
+<span class="comment">% Matlab complains a lot in dock format</span>
+iptsetpref(<span class="string">'ImshowInitialMagnification'</span>, <span class="string">'fit'</span>)
+warning(<span class="string">'off'</span>,<span class="string">'Images:imshow:magnificationMustBeFitForDockedFigure'</span>); <span class="comment">%Suppress Docked Fit Warning</span>
+<span class="comment">%  set(0,'DefaultFigureWindowStyle','normal')</span>
+
+<span class="comment">%Load All functions</span>
+ addpath(<span class="string">'C:\Users\Minghao\Desktop\research project\GUI\functions'</span>)
+<span class="comment">% %  supress all figure!!! for publishing for now</span>
+<span class="comment">% set(0,'DefaultFigureVisible','off')</span>
+
+handles.cropcor1 = [51.51,94.51,75.98,51.98];
+handles.cropcor2 = [23.51,201.51,84.98,52.98];
+</pre><h2>Reading the Data<a name="3"></a></h2><p>Using matlab UI to navigate into the responding folder</p><pre class="codeinput"><span class="comment">% loop to repeat the loading of different phantom sets</span>
+<span class="keyword">for</span> phantomsets=1:4
+</pre><pre class="codeinput">[fName,pName] = uigetfile(<span class="string">'*'</span>, <span class="string">'Load data'</span>);
+handles.pName = pName; <span class="comment">% to pass this directory for other function</span>
+<span class="keyword">if</span> pName == 0, <span class="keyword">return</span>; <span class="keyword">end</span>
+<span class="comment">%         dicomlist = dir(fullfile(pName,'Images','*.dcm'));</span>
+handles.dicomlist = dir(fullfile(pName, <span class="string">'*'</span>));  <span class="comment">%Generating a list of filename for reading in that directory, based on the 1st letter on the name</span>
+handles.dicomlist(~strncmp({handles.dicomlist.name}, fName(1), 1)) = []; <span class="comment">% this yank out those files that isn't start with the same 1st letter as selected file</span>
+<span class="comment">% handles.dicominfo = dicominfo(fullfile(pName,handles.dicomlist(1).name));   %reading dicominfo from the very 1st file</span>
+<span class="comment">% Sorting the image, so that the order of time/frame are consistent</span>
+<span class="comment">% chronologically</span>
+[handles.fname inx]= sort_nat({handles.dicomlist.name});
+handles.dicomlist = handles.dicomlist(inx);
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+     handles.data{cnt} = im2double(dicomread(fullfile(pName,handles.dicomlist(cnt).name))); <span class="comment">% directory reading of dicom files</span>
+     handles.info{cnt}  = dicominfo(fullfile(pName,handles.dicomlist(cnt).name)) ;
+<span class="keyword">end</span>
+
+<span class="comment">%Setting up ImgFolder for items</span>
+handles.ImageFolder = pName;                                   <span class="comment">%passing the directory path to textbox/display</span>
+</pre><h2>Searching for the initial crop coordinates and FeatureExtraction Coordinates<a name="5"></a></h2><p>Read for crop coordinate data and This search the Image folder for predata.txt, that is supposed to recorded the relevent cropping detaisl</p><pre class="codeinput">handles.predataName = <span class="string">'predata.txt'</span>;
+<span class="keyword">if</span> exist(fullfile(pName, handles.predataName), <span class="string">'file'</span>)
+    <span class="comment">% File exists.  Do stuff....</span>
+<span class="comment">%     % Display that notice the user there is pre-existing crop region</span>
+<span class="comment">%     txtInfo = sprintf('There is pre-existing crop region \n cropping and thresholding will generate new predata.txt');</span>
+<span class="comment">%     set(handles.txtbox, 'string', txtInfo);</span>
+
+    <span class="comment">% Read the File, and output it into matrix</span>
+    M = dlmread(fullfile(pName, handles.predataName));
+
+    <span class="comment">% Updating crop coordinates and method's option</span>
+    handles.cropcor1 = M(1,:);
+    handles.cropcor2 = M(2,:);
+<span class="comment">%     handles.MethodV = M(3,1);</span>
+    <span class="keyword">try</span>
+    handles.ExtractionCor = M(3,:);
+<span class="comment">%     catch exception</span>
+<span class="comment">%         figure, imshow(handles.I1{cnt})</span>
+<span class="comment">%         [impixel</span>
+    <span class="keyword">end</span>
+<span class="keyword">else</span>
+    <span class="comment">% File does not exist.</span>
+    <span class="comment">% Display that notice the user there is not pre-existing crop region</span>
+    txtInfo = sprintf(<span class="string">'There is no pre-existing crop region \n will generate predata.txt after cropping and thresholding \n handles.cropcor1'</span>);
+    set(handles.txtbox, <span class="string">'string'</span>, txtInfo);
+
+<span class="keyword">end</span>
+
+<span class="comment">% hence after crop and imagesegmentation, write it to the file, though this would</span>
+<span class="comment">% require sharing of pName, fullFileName as handles</span>
+dlmwrite(fullfile(handles.pName, handles.predataName), <span class="keyword">...</span>
+    [handles.cropcor1; handles.cropcor2])
+</pre><h2>For Original Image<a name="6"></a></h2><pre class="codeinput"><span class="comment">%This section would crop the relevent section, while aso preserving the I1</span>
+<span class="comment">%and I2 original cropping for comparison later on.</span>
+
+<span class="comment">%Cropping and Saving as two cells</span>
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    handles.I1{cnt} = imcrop(handles.data{cnt},handles.cropcor1);
+    handles.I2{cnt} = imcrop(handles.data{cnt},handles.cropcor2);  <span class="comment">% times 2 because of the orignal half int</span>
+<span class="keyword">end</span>
+
+<span class="comment">% %Depiciting the Image</span>
+<span class="comment">% figure, imhist(handles.I1{1}), title('Original Image Histogram')</span>
+<span class="comment">% figure, imshow( handles.I1{1},[])</span>
+</pre><h2>Gaussian filter<a name="7"></a></h2><p>applying gaussian filter to OriginalLocal histogram and CLAHE processed frame just to check the influence</p><pre class="codeinput">    <span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+        handles.Gdata{cnt} = Gaussian_fn(handles.data{cnt}, 3,2) ;
+        handles.GI1{cnt} = Gaussian_fn(handles.I1{cnt}, 3,2) ;
+        handles.GI2{cnt} = Gaussian_fn(handles.I2{cnt}, 3,2) ;
+    <span class="keyword">end</span>
+</pre><h2>Test of multiple frame<a name="8"></a></h2><pre class="codeinput">test = [1 5 13 20 30];
+</pre><h2>Segmentation of Tumour<a name="9"></a></h2><h2>Segmentation method 2: Local Otsu method<a name="10"></a></h2><p>I would expect the same result, but doing local should have the benifit it doing without the OtsuBinV control, at least, for most cases. In the 1st frame, it is observed that LO has better result, though whether that is conslusive remain to be seen</p><pre class="codeinput"><span class="comment">% In both case, the Gaussian filtered image is the best, Histogram</span>
+<span class="comment">% Localisation and CLAHE doesn't seems to aid in segmentation much, though,</span>
+<span class="comment">% perhaps looking at more frame, more data sets is require for any</span>
+<span class="comment">% conclusion</span>
+
+handles.OtsuBinV = 2;
+
+<span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    <span class="comment">%         handles.I1{cnt} = imcrop(handles.dataT{cnt},handles.cropcor1)*2;</span>
+    <span class="comment">%         handles.I2{cnt} = imcrop(handles.dataT{cnt},handles.cropcor2)*2;  % times 2 because of the orignal half int</span>
+    <span class="comment">% Acting on Original data</span>
+    handles.LOI1{cnt} = otsu(handles.I1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+    <span class="comment">% Acting on Gaussian filtered data</span>
+    handles.LOGI1{cnt} = otsu(handles.GI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+    <span class="comment">% Acting on LH data</span>
+<span class="comment">%     handles.LOLHI1{cnt} = otsu(handles.LHI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;</span>
+    <span class="comment">% Acting on LHG data</span>
+<span class="comment">%     handles.LOGLHI1{cnt} = otsu(handles.GLHI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;</span>
+    <span class="comment">%     handles.I2{cnt} = otsu(handles.I2{cnt},handles.OtsuBinV)*handles.OtsuBinV;</span>
+<span class="keyword">end</span>
+
+<span class="comment">% going through to depict imshow on test frames,</span>
+<span class="comment">% for i = 1 : 3</span>
+<span class="comment">%     figure('Name',' Original'),...</span>
+<span class="comment">%         imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'})</span>
+<span class="comment">%     figure('Name','Local Otsu method on Original'),...</span>
+<span class="comment">%         imshow(handles.LOI1{test(i)},[],'InitialMagnification',100), title({'Local Otsu method on Original'}),</span>
+<span class="comment">%     figure('Name','Local Otsu method on Gaussian data'),...</span>
+<span class="comment">%         imshow(handles.LOGI1{test(i)},[],'InitialMagnification',100), title({'Local Otsu method on Gaussian data'})</span>
+<span class="comment">% end</span>
+</pre><h2>Segmentation of Diaphragm<a name="11"></a></h2><pre class="codeinput"><span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+    handles.LOGI2{cnt} = otsu(handles.GI2{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+<span class="keyword">end</span>
+</pre><h2>Features Extraction<a name="12"></a></h2><p>Planning to make a function for features extraction, verifying, plotting</p><pre class="codeinput"><span class="comment">%   Some parameters that enable GUI control, enable all here</span>
+handles.Erode_DilateV = 1;
+handles.Bwareaopen = 1;
+handles.Erode_DilateV = 1;
+handles.Imfill = 1;
+handles.DynamicUpV = 1;
+
+
+
+[ handles ] = FeatureExtract( handles.LOGI1,handles.LOGI2, handles );
+
+
+<span class="comment">% hence after crop and imagesegmentation, write it to the file, though this would</span>
+<span class="comment">% require sharing of pName, fullFileName as handles</span>
+dlmwrite(fullfile(handles.pName, handles.predataName), <span class="keyword">...</span>
+    [handles.cropcor1; handles.cropcor2; handles.ExtractionCor])
+</pre><img vspace="5" hspace="5" src="DocumentationPhantom_01.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_05.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_09.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_13.png" alt=""> <h2>Verification Section<a name="13"></a></h2><p>Tumourpixelmargin = 25; Diahphragmpixelmargin = 20;</p><p>[ handles ] = VerifyExpectation(handles, Tumourpixelmargin, Diahphragmpixelmargin );</p><h2>Plots<a name="14"></a></h2><p>Since currently plotting by acquisition time and content time on the siemens MRI makes little sense, the time plot is just, far from resonable</p><pre class="codeinput">handles.SensibleTime = false;
+<span class="comment">% The number of frames starting from the first that which makes sense in</span>
+<span class="comment">% its temporal time.</span>
+handles.TimeSensibleRange = 2;
+
+[ handles ] =PlotsCV( handles );
+</pre><pre class="codeoutput">Warning: Unable to interpret TeX string "Displacement(mm) [inferior\caudal]" 
+</pre><img vspace="5" hspace="5" src="DocumentationPhantom_02.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_03.png" alt=""> <pre class="codeoutput">Warning: Unable to interpret TeX string "Displacement(mm) [inferior\caudal]" 
+</pre><img vspace="5" hspace="5" src="DocumentationPhantom_06.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_07.png" alt=""> <pre class="codeoutput">Warning: Unable to interpret TeX string "Displacement(mm) [inferior\caudal]" 
+</pre><img vspace="5" hspace="5" src="DocumentationPhantom_10.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_11.png" alt=""> <pre class="codeoutput">Warning: Unable to interpret TeX string "Displacement(mm) [inferior\caudal]" 
+</pre><img vspace="5" hspace="5" src="DocumentationPhantom_14.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_15.png" alt=""> <h2>Density Plot<a name="15"></a></h2><pre class="codeinput">    ProbabilityMap = 0;
+    <span class="keyword">for</span> cnt = 1: numel(handles.dicomlist)
+        ProbabilityMap = ProbabilityMap + handles.dataMap{cnt};
+    <span class="keyword">end</span>
+    <span class="comment">% Normalising</span>
+    ProbabilityMap = ProbabilityMap/numel(handles.dicomlist);
+
+    figure, contourf(ProbabilityMap,<span class="string">'ShowText'</span>,<span class="string">'on'</span>);
+axis <span class="string">ij</span>
+</pre><img vspace="5" hspace="5" src="DocumentationPhantom_04.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_08.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_12.png" alt=""> <img vspace="5" hspace="5" src="DocumentationPhantom_16.png" alt=""> <pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Documents
+%Test case for programs in GUI: loading all files as usual, but stop
+% before segmenting, would be changes to test all different segmentation
+% methods
+
+%% Clearing and some default settings
+clear all
+close all
+
+% docked figures are easier to manage
+% set(0,'DefaultFigureWindowStyle','docked')
+set(0,'DefaultFigureWindowStyle','normal')
+
+% Matlab complains a lot in dock format
+iptsetpref('ImshowInitialMagnification', 'fit')
+warning('off','Images:imshow:magnificationMustBeFitForDockedFigure'); %Suppress Docked Fit Warning
+%  set(0,'DefaultFigureWindowStyle','normal')
+
+%Load All functions
+ addpath('C:\Users\Minghao\Desktop\research project\GUI\functions')
+% %  supress all figure!!! for publishing for now
+% set(0,'DefaultFigureVisible','off')
+
+handles.cropcor1 = [51.51,94.51,75.98,51.98];
+handles.cropcor2 = [23.51,201.51,84.98,52.98];
+
+%% Reading the Data
+% Using matlab UI to navigate into the responding folder
+
+% loop to repeat the loading of different phantom sets
+for phantomsets=1:4
+    
+[fName,pName] = uigetfile('*', 'Load data');
+handles.pName = pName; % to pass this directory for other function
+if pName == 0, return; end
+%         dicomlist = dir(fullfile(pName,'Images','*.dcm'));
+handles.dicomlist = dir(fullfile(pName, '*'));  %Generating a list of filename for reading in that directory, based on the 1st letter on the name
+handles.dicomlist(~strncmp({handles.dicomlist.name}, fName(1), 1)) = []; % this yank out those files that isn't start with the same 1st letter as selected file
+% handles.dicominfo = dicominfo(fullfile(pName,handles.dicomlist(1).name));   %reading dicominfo from the very 1st file
+% Sorting the image, so that the order of time/frame are consistent
+% chronologically
+[handles.fname inx]= sort_nat({handles.dicomlist.name});
+handles.dicomlist = handles.dicomlist(inx);
+
+for cnt = 1 : numel(handles.dicomlist)
+     handles.data{cnt} = im2double(dicomread(fullfile(pName,handles.dicomlist(cnt).name))); % directory reading of dicom files
+     handles.info{cnt}  = dicominfo(fullfile(pName,handles.dicomlist(cnt).name)) ;
+end
+
+%Setting up ImgFolder for items
+handles.ImageFolder = pName;                                   %passing the directory path to textbox/display
+
+%% Searching for the initial crop coordinates and FeatureExtraction Coordinates
+% Read for crop coordinate data and
+% This search the Image folder for predata.txt, that is supposed to
+% recorded the relevent cropping detaisl
+
+handles.predataName = 'predata.txt';
+if exist(fullfile(pName, handles.predataName), 'file')
+    % File exists.  Do stuff....
+%     % Display that notice the user there is pre-existing crop region
+%     txtInfo = sprintf('There is pre-existing crop region \n cropping and thresholding will generate new predata.txt');
+%     set(handles.txtbox, 'string', txtInfo);
+    
+    % Read the File, and output it into matrix
+    M = dlmread(fullfile(pName, handles.predataName));
+    
+    % Updating crop coordinates and method's option
+    handles.cropcor1 = M(1,:);
+    handles.cropcor2 = M(2,:);
+%     handles.MethodV = M(3,1);
+    try
+    handles.ExtractionCor = M(3,:);
+%     catch exception
+%         figure, imshow(handles.I1{cnt})
+%         [impixel 
+    end
+else
+    % File does not exist.
+    % Display that notice the user there is not pre-existing crop region
+    txtInfo = sprintf('There is no pre-existing crop region \n will generate predata.txt after cropping and thresholding \n handles.cropcor1');
+    set(handles.txtbox, 'string', txtInfo);
+    
+end
+
+% hence after crop and imagesegmentation, write it to the file, though this would
+% require sharing of pName, fullFileName as handles
+dlmwrite(fullfile(handles.pName, handles.predataName), ...
+    [handles.cropcor1; handles.cropcor2])
+
+
+
+
+
+%% For Original Image
+%This section would crop the relevent section, while aso preserving the I1
+%and I2 original cropping for comparison later on.
+
+%Cropping and Saving as two cells
+for cnt = 1 : numel(handles.dicomlist)
+    handles.I1{cnt} = imcrop(handles.data{cnt},handles.cropcor1);
+    handles.I2{cnt} = imcrop(handles.data{cnt},handles.cropcor2);  % times 2 because of the orignal half int
+end
+
+% %Depiciting the Image
+% figure, imhist(handles.I1{1}), title('Original Image Histogram')
+% figure, imshow( handles.I1{1},[])
+
+
+   
+   %% Gaussian filter
+% applying gaussian filter to OriginalLocal histogram and CLAHE processed frame
+% just to check the influence 
+
+    for cnt = 1 : numel(handles.dicomlist)
+        handles.Gdata{cnt} = Gaussian_fn(handles.data{cnt}, 3,2) ;
+        handles.GI1{cnt} = Gaussian_fn(handles.I1{cnt}, 3,2) ;
+        handles.GI2{cnt} = Gaussian_fn(handles.I2{cnt}, 3,2) ;
+    end  
+            
+%% Test of multiple frame 
+test = [1 5 13 20 30];
+    
+   
+
+%% Segmentation of Tumour
+%% Segmentation method 2: Local Otsu method
+% I would expect the same result, but doing local should have the benifit
+% it doing without the OtsuBinV control, at least, for most cases. In the
+% 1st frame, it is observed that LO has better result, though whether that
+% is conslusive remain to be seen
+
+% In both case, the Gaussian filtered image is the best, Histogram
+% Localisation and CLAHE doesn't seems to aid in segmentation much, though,
+% perhaps looking at more frame, more data sets is require for any
+% conclusion
+
+handles.OtsuBinV = 2;
+
+for cnt = 1 : numel(handles.dicomlist)
+    %         handles.I1{cnt} = imcrop(handles.dataT{cnt},handles.cropcor1)*2;
+    %         handles.I2{cnt} = imcrop(handles.dataT{cnt},handles.cropcor2)*2;  % times 2 because of the orignal half int
+    % Acting on Original data
+    handles.LOI1{cnt} = otsu(handles.I1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+    % Acting on Gaussian filtered data
+    handles.LOGI1{cnt} = otsu(handles.GI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+    % Acting on LH data
+%     handles.LOLHI1{cnt} = otsu(handles.LHI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+    % Acting on LHG data
+%     handles.LOGLHI1{cnt} = otsu(handles.GLHI1{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+    %     handles.I2{cnt} = otsu(handles.I2{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+end
+
+% going through to depict imshow on test frames, 
+% for i = 1 : 3
+%     figure('Name',' Original'),...
+%         imshow(handles.I1{test(i)},[],'InitialMagnification',100), title({' Original'})
+%     figure('Name','Local Otsu method on Original'),...
+%         imshow(handles.LOI1{test(i)},[],'InitialMagnification',100), title({'Local Otsu method on Original'}),
+%     figure('Name','Local Otsu method on Gaussian data'),...
+%         imshow(handles.LOGI1{test(i)},[],'InitialMagnification',100), title({'Local Otsu method on Gaussian data'})
+% end
+
+    %% Segmentation of Diaphragm
+for cnt = 1 : numel(handles.dicomlist)
+    handles.LOGI2{cnt} = otsu(handles.GI2{cnt},handles.OtsuBinV)*handles.OtsuBinV;
+end
+
+%% Features Extraction
+% Planning to make a function for features extraction, verifying, plotting
+
+%   Some parameters that enable GUI control, enable all here
+handles.Erode_DilateV = 1;
+handles.Bwareaopen = 1;
+handles.Erode_DilateV = 1;
+handles.Imfill = 1;
+handles.DynamicUpV = 1;
+
+
+
+[ handles ] = FeatureExtract( handles.LOGI1,handles.LOGI2, handles );
+
+
+% hence after crop and imagesegmentation, write it to the file, though this would
+% require sharing of pName, fullFileName as handles
+dlmwrite(fullfile(handles.pName, handles.predataName), ...
+    [handles.cropcor1; handles.cropcor2; handles.ExtractionCor])
+
+
+
+%% Verification Section
+% Tumourpixelmargin = 25;
+% Diahphragmpixelmargin = 20;
+% 
+% [ handles ] = VerifyExpectation(handles, Tumourpixelmargin, Diahphragmpixelmargin );
+
+%% Plots
+% Since currently plotting by acquisition time and content time on the siemens MRI
+% makes little sense, the time plot is just, far from resonable
+handles.SensibleTime = false;
+% The number of frames starting from the first that which makes sense in
+% its temporal time.
+handles.TimeSensibleRange = 2;
+
+[ handles ] =PlotsCV( handles );
+
+
+%% Density Plot
+
+    ProbabilityMap = 0;
+    for cnt = 1: numel(handles.dicomlist)
+        ProbabilityMap = ProbabilityMap + handles.dataMap{cnt};
+    end
+    % Normalising
+    ProbabilityMap = ProbabilityMap/numel(handles.dicomlist);
+   
+    figure, contourf(ProbabilityMap,'ShowText','on');
+axis ij
+end
+
+##### SOURCE END #####
+--></body></html>

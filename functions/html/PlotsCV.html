@@ -1,0 +1,439 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PlotsCV</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-04-29"><meta name="DC.source" content="PlotsCV.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">Plotting Centroid position changes, diphragm changes and Volume</a></li><li><a href="#3">Prelocating x_axis, time</a></li><li><a href="#4">ACtual physical Displacement</a></li><li><a href="#5">Plot of Centroid of tumour and Diaphragm coordinates</a></li><li><a href="#6">Volume plot of tumour over time</a></li></ul></div><pre class="codeinput"><span class="keyword">function</span> [ handles ] = PlotsCV( handles )
+</pre><h2>Plotting Centroid position changes, diphragm changes and Volume<a name="2"></a></h2><p>This section establish the actual displacement and time parameters as well, instead of just relating to pixel coordinates and time.</p><pre class="codeinput"><span class="comment">% if(exist('handles.SensibleTime','var')==0), handles.SensibleTime=true; end</span>
+</pre><h2>Prelocating x_axis, time<a name="3"></a></h2><pre class="codeinput">x_axis{numel(handles.dicomlist)} =  {};
+
+
+<span class="keyword">if</span> handles.SensibleTime == true;
+    <span class="comment">% info.AcquisitionTime</span>
+    <span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+        <span class="comment">%     InitialTime =  handles.info{1}.AcquisitionTime;</span>
+        x_axis{cnt} = str2num(handles.info{cnt}.AcquisitionTime ) - str2num(handles.info{1}.AcquisitionTime);
+        <span class="comment">%  x1{cnt} = x1{cnt}</span>
+    <span class="keyword">end</span>
+    handles.time_axis  = cell2mat (x_axis);
+
+<span class="keyword">else</span>
+
+    <span class="keyword">for</span> cnt = 1 : numel(handles.dicomlist)
+        <span class="comment">%     InitialTime =  handles.info{1}.AcquisitionTime;</span>
+        x_axis{cnt} = (str2num(handles.info{cnt}.AcquisitionTime ) - str2num(handles.info{1}.AcquisitionTime));
+        <span class="comment">%  x1{cnt} = x1{cnt}</span>
+    <span class="keyword">end</span>
+    temporaltime = (x_axis{handles.TimeSensibleRange}-x_axis{1})/(handles.TimeSensibleRange-1);
+    endpoint = (numel(handles.dicomlist)-1)*temporaltime;
+<span class="comment">%     handles.time_axis  = linspace(0,endpoint-1,numel(handles.dicomlist));</span>
+<span class="comment">% handles.time_axis  = linspace(0,endpoint,numel(handles.dicomlist)+1);</span>
+handles.time_axis = (0:temporaltime:endpoint);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Error using PlotsCV (line 9)
+Not enough input arguments.
+</pre><h2>ACtual physical Displacement<a name="4"></a></h2><pre class="codeinput"><span class="comment">%transforming the centroid pixels locations to actual displacement and time</span>
+
+<span class="comment">%info.pixelspacing</span>
+handles.TumourXcentroid = handles.CtumourX*handles.info{1}.PixelSpacing(1);
+handles.TumourXcentroid = handles.TumourXcentroid - nanmean(handles.CtumourX)*handles.info{1}.PixelSpacing(1); <span class="comment">%Mean ignoring NaN values</span>
+handles.TumourYcentroid = handles.CtumourY*handles.info{1}.PixelSpacing(2);
+handles.TumourYcentroid = handles.TumourYcentroid - nanmean(handles.CtumourY)*handles.info{1}.PixelSpacing(1);
+handles.DiaphragmYbound = handles.DiaphragmY*handles.info{1}.PixelSpacing(2);
+handles.DiaphragmYbound = handles.DiaphragmYbound - nanmean(handles.DiaphragmY)*handles.info{1}.PixelSpacing(1);
+</pre><h2>Plot of Centroid of tumour and Diaphragm coordinates<a name="5"></a></h2><p>This plot the appropriate data, with the respectice time in s and displacement in mm</p><pre class="codeinput">figure
+hold <span class="string">on</span>
+<span class="comment">% title(' pixel location of Ctumour and diaphragm');</span>
+<span class="comment">% grid on</span>
+<span class="comment">% set(gca,'GridLineStyle','-');</span>
+<span class="comment">% grid minor;</span>
+<span class="comment">% plot(handles.time_axis,handles.TumourXcentroid,'-r'...</span>
+<span class="comment">%     ,handles.time_axis,handles.TumourYcentroid,'-b'...</span>
+<span class="comment">%     ,handles.time_axis,handles.DiaphragmYbound,'-g')</span>
+<span class="comment">% xlabel('Time (s)')</span>
+<span class="comment">% ylabel('Displacement(mm)')</span>
+<span class="comment">%</span>
+<span class="comment">% hleg1 = legend('Ctumour-x AP/RL','Ctumour-y CC','Diaphragm-y CC');</span>
+TumourXcentroid = line(handles.time_axis, handles.TumourXcentroid);
+TumourYcentroid = line(handles.time_axis, handles.TumourYcentroid);
+DiaphragmYbound = line(handles.time_axis, handles.DiaphragmYbound);
+
+<span class="comment">% Adjust line properties (functional)</span>
+set(TumourXcentroid                          , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [.1 .1 .7]    );
+set(TumourYcentroid                            , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'.'</span>         , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [.1 .7 .1]  );
+set(DiaphragmYbound                            , <span class="keyword">...</span>
+    <span class="string">'LineStyle'</span>       , <span class="string">'--'</span>      , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'.'</span>         , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [.7 .1 .1]  );
+
+<span class="comment">% Adjust line properties (aesthetics)</span>
+set(TumourXcentroid                          , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 2           , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'o'</span>         , <span class="keyword">...</span>
+  <span class="string">'MarkerSize'</span>      , 6           , <span class="keyword">...</span>
+  <span class="string">'MarkerEdgeColor'</span> , [.2 .2 .2]  , <span class="keyword">...</span>
+  <span class="string">'MarkerFaceColor'</span> , [.1 .1 .7]   );
+set(TumourYcentroid                            , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 2           , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'o'</span>         , <span class="keyword">...</span>
+  <span class="string">'MarkerSize'</span>      , 6           , <span class="keyword">...</span>
+  <span class="string">'MarkerEdgeColor'</span> , [.2 .2 .2]  , <span class="keyword">...</span>
+  <span class="string">'MarkerFaceColor'</span> , [.1 .7 .1]   );
+set(DiaphragmYbound                          , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 2           , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'o'</span>         , <span class="keyword">...</span>
+  <span class="string">'MarkerSize'</span>      , 6           , <span class="keyword">...</span>
+  <span class="string">'MarkerEdgeColor'</span> , [.2 .2 .2]  , <span class="keyword">...</span>
+  <span class="string">'MarkerFaceColor'</span> , [.7 .1 .1]   );
+
+
+<span class="comment">% Add labels</span>
+hTitle  = title (<span class="string">'Pixel location of Ctumour and diaphragm'</span>);
+hXLabel = xlabel(<span class="string">'Time(s)'</span>       );
+hYLabel = ylabel(<span class="string">'Displacement(mm)'</span>    );
+
+<span class="comment">% Add legend</span>
+hLegend = legend([TumourXcentroid, TumourYcentroid, DiaphragmYbound], <span class="keyword">...</span>
+  <span class="string">'Ctumour-x AP/RL'</span> , <span class="keyword">...</span>
+  <span class="string">'Ctumour-y CC'</span>, <span class="keyword">...</span>
+  <span class="string">'Diaphragm-y CC'</span>);
+
+<span class="comment">% Adjust font</span>
+set( gca                             , <span class="string">'FontName'</span>   , <span class="string">'Helvetica'</span> );
+set([hTitle, hXLabel, hYLabel]      ,  <span class="string">'FontName'</span>   , <span class="string">'AvantGarde'</span>);
+set([hLegend, gca]                   , <span class="string">'FontSize'</span>   , 8           );
+set([hXLabel, hYLabel]               , <span class="string">'FontSize'</span>   , 10          );
+set( hTitle                          , <span class="string">'FontSize'</span>   , 12          , <span class="keyword">...</span>
+                                       <span class="string">'FontWeight'</span> , <span class="string">'bold'</span>      );
+
+<span class="comment">% Adjust axes properties</span>
+set(gca, <span class="keyword">...</span>
+  <span class="string">'Box'</span>         , <span class="string">'off'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickDir'</span>     , <span class="string">'out'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickLength'</span>  , [.02 .02] , <span class="keyword">...</span>
+  <span class="string">'XMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YGrid'</span>       , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'XColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'YColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>   , 1         );
+ hold <span class="string">off</span>
+</pre><h2>Volume plot of tumour over time<a name="6"></a></h2><p>This plot the volume of tumour, ie, number of pixels with respect to time</p><pre class="codeinput">figure
+hold <span class="string">on</span>
+<span class="comment">% title (' Volume of tumour')</span>
+<span class="comment">% grid on</span>
+<span class="comment">% % plot(handles.time_axis, handles.Areatumour, '-r'...</span>
+<span class="comment">% %     ,handles.time_axis, handles.DiaphragmYbound,'-g')</span>
+<span class="comment">% plot(handles.time_axis, handles.Areatumour, '-r')</span>
+<span class="comment">% xlabel('Time (s)')</span>
+<span class="comment">% ylabel('Volume(Number of pixels)')</span>
+<span class="comment">% % ylabel('Volume(1.5625mm^2)')</span>
+<span class="comment">% hold off</span>
+Areatumour = line(handles.time_axis, handles.Areatumour);
+
+
+<span class="comment">% Adjust line properties (functional)</span>
+set(Areatumour                          , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'.'</span>         , <span class="keyword">...</span>
+  <span class="string">'Color'</span>           , [.5 .5 .5]  );
+
+<span class="comment">% Adjust line properties (aesthetics)</span>
+set(Areatumour                          , <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>       , 1           , <span class="keyword">...</span>
+  <span class="string">'Marker'</span>          , <span class="string">'o'</span>         , <span class="keyword">...</span>
+  <span class="string">'MarkerSize'</span>      , 6           , <span class="keyword">...</span>
+  <span class="string">'MarkerEdgeColor'</span> , [.2 .2 .2]  , <span class="keyword">...</span>
+  <span class="string">'MarkerFaceColor'</span> , [.7 .7 .7]  );
+
+<span class="comment">% Add labels</span>
+hTitle  = title (<span class="string">'Area of tumour (N pixel)'</span>);
+hXLabel = xlabel(<span class="string">'Time(s)'</span>       );
+hYLabel = ylabel(<span class="string">'Volume(Number of pixels)'</span>    );
+
+<span class="comment">% Add legend</span>
+hLegend = legend([Areatumour], <span class="keyword">...</span>
+  <span class="string">'Area of tumour'</span> );
+
+<span class="comment">% Adjust font</span>
+set( gca                             , <span class="string">'FontName'</span>   , <span class="string">'Helvetica'</span> );
+set([hTitle, hXLabel, hYLabel]      ,  <span class="string">'FontName'</span>   , <span class="string">'AvantGarde'</span>);
+set([hLegend, gca]                   , <span class="string">'FontSize'</span>   , 8           );
+set([hXLabel, hYLabel]               , <span class="string">'FontSize'</span>   , 10          );
+set( hTitle                          , <span class="string">'FontSize'</span>   , 12          , <span class="keyword">...</span>
+                                       <span class="string">'FontWeight'</span> , <span class="string">'bold'</span>      );
+
+<span class="comment">% Adjust axes properties</span>
+set(gca, <span class="keyword">...</span>
+  <span class="string">'Box'</span>         , <span class="string">'off'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickDir'</span>     , <span class="string">'out'</span>     , <span class="keyword">...</span>
+  <span class="string">'TickLength'</span>  , [.02 .02] , <span class="keyword">...</span>
+  <span class="string">'XMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YMinorTick'</span>  , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'YGrid'</span>       , <span class="string">'on'</span>      , <span class="keyword">...</span>
+  <span class="string">'XColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'YColor'</span>      , [.3 .3 .3], <span class="keyword">...</span>
+  <span class="string">'LineWidth'</span>   , 1         );
+ hold <span class="string">off</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+function [ handles ] = PlotsCV( handles )
+%% Plotting Centroid position changes, diphragm changes and Volume
+% This section establish the actual displacement and time parameters as
+% well, instead of just relating to pixel coordinates and time.
+
+% if(exist('handles.SensibleTime','var')==0), handles.SensibleTime=true; end
+
+%% Prelocating x_axis, time
+x_axis{numel(handles.dicomlist)} =  {};
+
+
+if handles.SensibleTime == true;
+    % info.AcquisitionTime
+    for cnt = 1 : numel(handles.dicomlist)
+        %     InitialTime =  handles.info{1}.AcquisitionTime;
+        x_axis{cnt} = str2num(handles.info{cnt}.AcquisitionTime ) - str2num(handles.info{1}.AcquisitionTime);
+        %  x1{cnt} = x1{cnt}
+    end
+    handles.time_axis  = cell2mat (x_axis);
+    
+else
+    
+    for cnt = 1 : numel(handles.dicomlist)
+        %     InitialTime =  handles.info{1}.AcquisitionTime;
+        x_axis{cnt} = (str2num(handles.info{cnt}.AcquisitionTime ) - str2num(handles.info{1}.AcquisitionTime));
+        %  x1{cnt} = x1{cnt}
+    end
+    temporaltime = (x_axis{handles.TimeSensibleRange}-x_axis{1})/(handles.TimeSensibleRange-1);
+    endpoint = (numel(handles.dicomlist)-1)*temporaltime;
+%     handles.time_axis  = linspace(0,endpoint-1,numel(handles.dicomlist));
+% handles.time_axis  = linspace(0,endpoint,numel(handles.dicomlist)+1);
+handles.time_axis = (0:temporaltime:endpoint);
+end
+
+%% ACtual physical Displacement
+%transforming the centroid pixels locations to actual displacement and time
+
+%info.pixelspacing
+handles.TumourXcentroid = handles.CtumourX*handles.info{1}.PixelSpacing(1);
+handles.TumourXcentroid = handles.TumourXcentroid - nanmean(handles.CtumourX)*handles.info{1}.PixelSpacing(1); %Mean ignoring NaN values
+handles.TumourYcentroid = handles.CtumourY*handles.info{1}.PixelSpacing(2);
+handles.TumourYcentroid = handles.TumourYcentroid - nanmean(handles.CtumourY)*handles.info{1}.PixelSpacing(1);
+handles.DiaphragmYbound = handles.DiaphragmY*handles.info{1}.PixelSpacing(2);
+handles.DiaphragmYbound = handles.DiaphragmYbound - nanmean(handles.DiaphragmY)*handles.info{1}.PixelSpacing(1);
+
+%% Plot of Centroid of tumour and Diaphragm coordinates
+% This plot the appropriate data, with the respectice time in s and
+% displacement in mm
+
+figure
+hold on
+% title(' pixel location of Ctumour and diaphragm');
+% grid on
+% set(gca,'GridLineStyle','-');
+% grid minor;
+% plot(handles.time_axis,handles.TumourXcentroid,'-r'...
+%     ,handles.time_axis,handles.TumourYcentroid,'-b'...
+%     ,handles.time_axis,handles.DiaphragmYbound,'-g')
+% xlabel('Time (s)')
+% ylabel('Displacement(mm)')
+% 
+% hleg1 = legend('Ctumour-x AP/RL','Ctumour-y CC','Diaphragm-y CC');
+TumourXcentroid = line(handles.time_axis, handles.TumourXcentroid);
+TumourYcentroid = line(handles.time_axis, handles.TumourYcentroid);
+DiaphragmYbound = line(handles.time_axis, handles.DiaphragmYbound);
+
+% Adjust line properties (functional)
+set(TumourXcentroid                          , ...
+  'Color'           , [.1 .1 .7]    );
+set(TumourYcentroid                            , ...
+  'Marker'          , '.'         , ...
+  'Color'           , [.1 .7 .1]  );
+set(DiaphragmYbound                            , ...
+    'LineStyle'       , 'REPLACE_WITH_DASH_DASH'      , ...
+  'Marker'          , '.'         , ...
+  'Color'           , [.7 .1 .1]  );
+
+% Adjust line properties (aesthetics)
+set(TumourXcentroid                          , ...
+  'LineWidth'       , 2           , ...
+  'Marker'          , 'o'         , ...
+  'MarkerSize'      , 6           , ...
+  'MarkerEdgeColor' , [.2 .2 .2]  , ...
+  'MarkerFaceColor' , [.1 .1 .7]   );
+set(TumourYcentroid                            , ...
+  'LineWidth'       , 2           , ...
+  'Marker'          , 'o'         , ...
+  'MarkerSize'      , 6           , ...
+  'MarkerEdgeColor' , [.2 .2 .2]  , ...
+  'MarkerFaceColor' , [.1 .7 .1]   );
+set(DiaphragmYbound                          , ...
+  'LineWidth'       , 2           , ...
+  'Marker'          , 'o'         , ...
+  'MarkerSize'      , 6           , ...
+  'MarkerEdgeColor' , [.2 .2 .2]  , ...
+  'MarkerFaceColor' , [.7 .1 .1]   );
+
+
+% Add labels
+hTitle  = title ('Pixel location of Ctumour and diaphragm');
+hXLabel = xlabel('Time(s)'       );
+hYLabel = ylabel('Displacement(mm)'    );
+
+% Add legend
+hLegend = legend([TumourXcentroid, TumourYcentroid, DiaphragmYbound], ...
+  'Ctumour-x AP/RL' , ...
+  'Ctumour-y CC', ...
+  'Diaphragm-y CC');
+  
+% Adjust font
+set( gca                             , 'FontName'   , 'Helvetica' );
+set([hTitle, hXLabel, hYLabel]      ,  'FontName'   , 'AvantGarde');
+set([hLegend, gca]                   , 'FontSize'   , 8           );
+set([hXLabel, hYLabel]               , 'FontSize'   , 10          );
+set( hTitle                          , 'FontSize'   , 12          , ...
+                                       'FontWeight' , 'bold'      );
+
+% Adjust axes properties
+set(gca, ...
+  'Box'         , 'off'     , ...
+  'TickDir'     , 'out'     , ...
+  'TickLength'  , [.02 .02] , ...
+  'XMinorTick'  , 'on'      , ...
+  'YMinorTick'  , 'on'      , ...
+  'YGrid'       , 'on'      , ...
+  'XColor'      , [.3 .3 .3], ...
+  'YColor'      , [.3 .3 .3], ...
+  'LineWidth'   , 1         );
+ hold off
+
+
+
+%% Volume plot of tumour over time
+% This plot the volume of tumour, ie, number of pixels with respect to
+% time
+
+figure
+hold on
+% title (' Volume of tumour')
+% grid on
+% % plot(handles.time_axis, handles.Areatumour, '-r'...
+% %     ,handles.time_axis, handles.DiaphragmYbound,'-g')
+% plot(handles.time_axis, handles.Areatumour, '-r')
+% xlabel('Time (s)')
+% ylabel('Volume(Number of pixels)')
+% % ylabel('Volume(1.5625mm^2)')
+% hold off
+Areatumour = line(handles.time_axis, handles.Areatumour);
+
+
+% Adjust line properties (functional)
+set(Areatumour                          , ...
+  'Marker'          , '.'         , ...
+  'Color'           , [.5 .5 .5]  );
+
+% Adjust line properties (aesthetics)
+set(Areatumour                          , ...
+  'LineWidth'       , 1           , ...
+  'Marker'          , 'o'         , ...
+  'MarkerSize'      , 6           , ...
+  'MarkerEdgeColor' , [.2 .2 .2]  , ...
+  'MarkerFaceColor' , [.7 .7 .7]  );
+
+% Add labels
+hTitle  = title ('Area of tumour (N pixel)');
+hXLabel = xlabel('Time(s)'       );
+hYLabel = ylabel('Volume(Number of pixels)'    );
+
+% Add legend
+hLegend = legend([Areatumour], ...
+  'Area of tumour' );
+  
+% Adjust font
+set( gca                             , 'FontName'   , 'Helvetica' );
+set([hTitle, hXLabel, hYLabel]      ,  'FontName'   , 'AvantGarde');
+set([hLegend, gca]                   , 'FontSize'   , 8           );
+set([hXLabel, hYLabel]               , 'FontSize'   , 10          );
+set( hTitle                          , 'FontSize'   , 12          , ...
+                                       'FontWeight' , 'bold'      );
+
+% Adjust axes properties
+set(gca, ...
+  'Box'         , 'off'     , ...
+  'TickDir'     , 'out'     , ...
+  'TickLength'  , [.02 .02] , ...
+  'XMinorTick'  , 'on'      , ...
+  'YMinorTick'  , 'on'      , ...
+  'YGrid'       , 'on'      , ...
+  'XColor'      , [.3 .3 .3], ...
+  'YColor'      , [.3 .3 .3], ...
+  'LineWidth'   , 1         );
+ hold off
+
+
+##### SOURCE END #####
+--></body></html>
